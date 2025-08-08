@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tariff Percentage Predictor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        .button-grid {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .scenario-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            padding: 20px 30px;
+            border-radius: 15px;
+            font-size: 1.1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .scenario-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(45deg, #ee5a24, #ff6b6b);
+        }
+
+        .scenario-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .reset-btn {
+            background: linear-gradient(45deg, #74b9ff, #0984e3);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .reset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(45deg, #0984e3, #74b9ff);
+        }
+
+        .result-container {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 15px;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .result-text {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #333;
+            text-align: center;
+        }
+
+        .tariff-percentage {
+            font-size: 2em;
+            font-weight: bold;
+            color: #e74c3c;
+            margin: 10px 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .scenario-btn {
+                padding: 15px 20px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏛️ Tariff Predictor</h1>
+        <p class="subtitle">Predict the President's tariff percentage based on wake-up scenarios</p>
+        
+        <div class="button-grid">
+            <button class="scenario-btn" onclick="predictTariff('left', 25)">
+                🛏️ President wakes up left side of the bed
+            </button>
+            
+            <button class="scenario-btn" onclick="predictTariff('right', 50)">
+                🛏️ President wakes up right side of the bed
+            </button>
+            
+            <button class="scenario-btn" onclick="predictTariff('upright', 75)">
+                ⬆️ President wakes up upright
+            </button>
+            
+            <button class="scenario-btn" onclick="predictTariff('putin', 200)">
+                🖼️ President wakes up and sees Putin's image
+            </button>
+        </div>
+
+        <button class="reset-btn" onclick="resetResults()">
+            🔄 Reset Results
+        </button>
+
+        <div id="resultContainer" class="result-container hidden">
+            <div id="resultText" class="result-text"></div>
+        </div>
+    </div>
+
+    <script>
+        function predictTariff(scenario, percentage) {
+            const resultContainer = document.getElementById('resultContainer');
+            const resultText = document.getElementById('resultText');
+            
+            let scenarioText = '';
+            let emoji = '';
+            
+            switch(scenario) {
+                case 'left':
+                    scenarioText = 'Left side of the bed';
+                    emoji = '😴';
+                    break;
+                case 'right':
+                    scenarioText = 'Right side of the bed';
+                    emoji = '😊';
+                    break;
+                case 'upright':
+                    scenarioText = 'Upright position';
+                    emoji = '😤';
+                    break;
+                case 'putin':
+                    scenarioText = 'Seeing Putin\'s image';
+                    emoji = '😡';
+                    break;
+            }
+            
+            resultText.innerHTML = `
+                <div>${emoji} Scenario: ${scenarioText}</div>
+                <div class="tariff-percentage">${percentage}% Tariff</div>
+                <div>Predicted impact on trade policies</div>
+            `;
+            
+            resultContainer.classList.remove('hidden');
+            resultContainer.classList.add('fade-in');
+            
+            // Scroll to result
+            resultContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        function resetResults() {
+            const resultContainer = document.getElementById('resultContainer');
+            resultContainer.classList.add('hidden');
+            resultContainer.classList.remove('fade-in');
+        }
+        
+        // Add some interactive feedback
+        document.querySelectorAll('.scenario-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+    </script>
+</body>
+</html> 
